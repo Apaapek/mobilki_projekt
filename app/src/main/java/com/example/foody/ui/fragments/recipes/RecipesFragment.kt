@@ -50,6 +50,10 @@ class RecipesFragment : Fragment() {
         readDatabase()
         //requestApiData()
 
+        binding.recipesFab.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+        }
+
         return binding.root
     }
 
