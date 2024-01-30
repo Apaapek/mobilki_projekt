@@ -15,4 +15,8 @@
     <color name="red">#FF4646</color>
     <color name="yellow">#FFC114</color>
     <color name="green">#00C980</color>
+    <color name="checkedChipTextColor">#206200EA</color>
+    <color name="chipTextColor">#F9F9F9</color>
+    <color name="checkedChipBackgroundColor">#206200EA</color>
+    <color name="chipBackgroundColor">#F9F9F9</color>
 </resources>
