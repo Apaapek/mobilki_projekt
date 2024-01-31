@@ -16,8 +16,8 @@ import com.example.foody.util.Constants.Companion.QUERY_API_KEY
 import com.example.foody.util.Constants.Companion.QUERY_DIET
 import com.example.foody.util.Constants.Companion.QUERY_FILL_INGREDIENTS
 import com.example.foody.util.Constants.Companion.QUERY_NUMBER
-import com.example.foody.util.Constants.Companion.QUERY_TYPE
 import com.example.foody.util.Constants.Companion.QUERY_SEARCH
+import com.example.foody.util.Constants.Companion.QUERY_TYPE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 class RecipesViewModel @ViewModelInject constructor(
     application: Application,
     private val dataStoreRepository: DataStoreRepository
-) : AndroidViewModel(application){
+) : AndroidViewModel(application) {
 
     private var mealType = DEFAULT_MEAL_TYPE
     private var dietType = DEFAULT_DIET_TYPE
@@ -33,13 +33,17 @@ class RecipesViewModel @ViewModelInject constructor(
     var networkStatus = false
     var backOnline = false
 
-
     val readMealAndDietType = dataStoreRepository.readMealAndDietType
     val readBackOnline = dataStoreRepository.readBackOnline.asLiveData()
 
     fun saveMealAndDietType(mealType: String, mealTypeId: Int, dietType: String, dietTypeId: Int) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveMealAndDietType(mealType, mealTypeId, dietType, dietTypeId)
+        }
+
+    private fun saveBackOnline(backOnline: Boolean) =
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveBackOnline(backOnline)
         }
 
     fun applyQueries(): HashMap<String, String> {
@@ -61,6 +65,7 @@ class RecipesViewModel @ViewModelInject constructor(
 
         return queries
     }
+
     fun applySearchQuery(searchQuery: String): HashMap<String, String> {
         val queries: HashMap<String, String> = HashMap()
         queries[QUERY_SEARCH] = searchQuery
@@ -70,11 +75,6 @@ class RecipesViewModel @ViewModelInject constructor(
         queries[QUERY_FILL_INGREDIENTS] = "true"
         return queries
     }
-
-    private fun saveBackOnline(backOnline: Boolean) =
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.saveBackOnline(backOnline)
-        }
 
     fun showNetworkStatus() {
         if (!networkStatus) {
